@@ -11,24 +11,25 @@ import java.io.ByteArrayOutputStream
 import javax.imageio.ImageIO
 
 val allContents: MutableList<Any> = mutableListOf()
+val toolkit : Toolkit = Toolkit.getDefaultToolkit()
+val clipboard : Clipboard = toolkit.systemClipboard
 
 fun listen():Unit{
     val imageStrings : MutableList<String> = mutableListOf()
     val scheduler : Timer = Timer()
-    val toolkit : Toolkit = Toolkit.getDefaultToolkit()
-    val clipboard : Clipboard = toolkit.systemClipboard
+
     scheduler.schedule(object : TimerTask() {
         override fun run() {
             try {
                 val copiedString: Any = clipboard.getData(DataFlavor.stringFlavor)
                 if(allContents.size==0){
                     allContents.add(copiedString)
-                    allContents.forEach { a -> print("$a, ") }
-                    println()
+                    //allContents.forEach { a -> print("$a, ") }
+                    //println()
                 }else if(!allContents.contains(copiedString)){
                     allContents.add(copiedString)
-                    allContents.forEach { a -> print("$a, ") }
-                    println()
+                   // allContents.forEach { a -> print("$a, ") }
+                   // println()
                 }
             }catch(e : Exception){
                 try {
@@ -40,11 +41,11 @@ fun listen():Unit{
                     if(!imageStrings.contains(encoded64)) {
                         imageStrings.add(encoded64)
                         if (allContents.size == 0) {
-                            allContents.add(image)
+                            allContents.add(encoded64)
                             allContents.forEach { a -> print("$a, ") }
                             println()
                         } else if (!allContents.contains(image)) {
-                            allContents.add(image)
+                            allContents.add(encoded64)
                             allContents.forEach { a -> print("$a, ") }
                             println()
                         }
